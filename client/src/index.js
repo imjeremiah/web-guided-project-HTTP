@@ -12,6 +12,7 @@ import "./styles.css";
 
 const App = () => {
   const [items, setItems] = useState([]);
+  
   useEffect(() => {
     axios
       .get("http://localhost:3333/items")
@@ -20,6 +21,13 @@ const App = () => {
       })
       .catch(error => console.log(error));
   }, []);
+
+  // IF RES ONLY RETURNS AN ID: 
+  // const deleteItem = (id) => {
+  //   setItems(items.filter(item => {
+  //     return item.id !== id
+  //   }));
+  // }
 
   return (
     <div className="App">
@@ -45,8 +53,15 @@ const App = () => {
       <Route
         path="/item-list/:id"
         render={props => <Item {...props} setItems={setItems} />}
+        // IN HERE ^^ deleteItem={deleteItem} instead of setItems
       />
       <Route path="/item-form" component={ItemForm} />
+      {/* <Route path="/item-update/:id" render={(props) => {
+        return <UpdateForm {...props} setItems={setItems}/>
+      }} /> */}
+      <Route path="/item-update/:id">
+        <UpdateForm setItems={setItems} />
+      </Route>
     </div>
   );
 };
